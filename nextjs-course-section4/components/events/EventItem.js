@@ -1,6 +1,8 @@
 import React from "react";
 import Link from "next/link";
 
+import classes from "./EventItem.module.css";
+
 const EventItem = (props) => {
   const { title, image, date, location, id } = props;
 
@@ -18,20 +20,20 @@ const EventItem = (props) => {
   const formattedAddress = location.replace(", ", "\n");
 
   return (
-    <li>
+    <li className={classes.item}>
       {/* '/'만 붙여도 public 폴더로 인식 */}
       <img src={`/${image}`} alt={title} />
-      <div>
-        <div>
+      <div className={classes.content}>
+        <div className={classes.summary}>
           <h2>{title}</h2>
-          <div>
+          <div className={classes.date}>
             <time>{humanReadableDate}</time>
           </div>
-          <div>
+          <div className={classes.address}>
             <address>{formattedAddress}</address>
           </div>
         </div>
-        <div>
+        <div className={classes.actions}>
           <Link href={exploreLink}>Explore Event</Link>
         </div>
       </div>
