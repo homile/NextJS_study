@@ -3,6 +3,8 @@ import { useRouter } from "next/router";
 import { getFilteredEvents } from "../../dummy-data";
 import EventList from "../../components/events/EventList";
 import ResultsTitle from "../../components/events/results-title";
+import ErrorAlert from "../../components/ui/error-alert";
+import Button from "../../components/ui/button";
 
 const FilteredEventsPage = () => {
   const router = useRouter();
@@ -29,14 +31,32 @@ const FilteredEventsPage = () => {
     numMonth < 1 ||
     numMonth > 12
   ) {
-    return <p>Invalid filter. Please abjiust your values!</p>;
+    return (
+      <Fragment>
+        <ErrorAlert>
+          <p>Invalid filter. Please abjiust your values!</p>
+        </ErrorAlert>
+        <div className="center">
+          <Button link="/events">Show All Events</Button>
+        </div>
+      </Fragment>
+    );
   }
 
   const filteredEvents = getFilteredEvents({ year: numYear, month: numMonth });
 
   // 검색 결과가 없을 경우
   if (!filteredEvents || filteredEvents.length === 0) {
-    return <p>No events found for the chosen filter!</p>;
+    return (
+      <Fragment>
+        <ErrorAlert>
+          <p>No events found for the chosen filter!</p>
+        </ErrorAlert>
+        <div className="center">
+          <Button link="/events">Show All Events</Button>
+        </div>
+      </Fragment>
+    );
   }
 
   const date = new Date(numYear, numMonth - 1);
