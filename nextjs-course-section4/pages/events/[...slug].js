@@ -1,6 +1,7 @@
 import React from "react";
 import { useRouter } from "next/router";
 import { getFilteredEvents } from "../../dummy-data";
+import EventList from "../../components/events/EventList";
 
 const FilteredEventsPage = () => {
   const router = useRouter();
@@ -39,7 +40,7 @@ const FilteredEventsPage = () => {
 
   return (
     <div>
-      <h1>Filtered Events</h1>
+      <EventList items={filteredEvents} />
     </div>
   );
 };
