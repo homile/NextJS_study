@@ -19,10 +19,26 @@ const HomePage = (props) => {
 // 일반적인 React에서는 useEffect를 사용했음.
 // CSR 방식이 아닌 SSR 방식이기 때문에 사용자가 볼 수 없는 크리덴셜(credential)을 사용할 수 있다.
 export async function getStaticProps() {
-  console.log("re");
+  console.log("(Re-)Generating...");
   const filePath = path.join(process.cwd(), "data", "dummy-backend.json");
   const jsonData = await fs.readFile(filePath);
   const data = JSON.parse(jsonData);
+
+  if (!data) {
+    return {
+      // 페이지 콘텐츠나 컴포넌트 콘텐츠를 렌더링하지않고
+      // 다른 페이지로 리디렉션하는 설정
+      redirect: {
+        destination: "/no-data",
+      },
+    };
+  }
+
+  // 데이터가 없을 경우 404 페이지를 보여줌
+  if (data.products.length === 0) {
+    // notFound true -> 404 페이지
+    return { notFound: true };
+  }
 
   return {
     props: {
