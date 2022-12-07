@@ -19,6 +19,7 @@ npm run dev
 - Next.js를 이용해 데이터를 준비하고 패칭하는 방법
 
 ### 일반 React와 Next의 차이
+
 - React
   - 개발자 서버로부터 파일을 받아서 HTTP 요청을 전송하는 방식
   - JavaScript와 React를 통한 렌더링이 끝나야 본 페이지에서 로딩한다.
@@ -27,8 +28,13 @@ npm run dev
   - 위의 React의 단점들을 해결할 수 있다.
 
 ### getStaticProps 함수
+
 - 모든 페이지에 추가할 수 있고 페이지에만 추가할 수 있으며 export 해줘야한다.
 - 페이지가 사전 생성되어야 하는 페이지임을 Next.js에 알려주는 역할을 한다.
 - 일반적인 React에서 useEffect를 사용하여 데이터를 가져오는 것과 비슷한 역할을 한다.
 - CSR방식이 아닌 SSR 방식이기 때문에 사용자가 볼 수 없는 creduntail을 사용할 수 있다.
   - 파일 시스템에 접근하는 코드와 같이 브라우저에서 작동하지 않는 코드를 실행할 수 있다.
+
+### 증분 정적 생성(ISR, Incremental Static Generation)
+
+- 페이지르 사전 생성하긴 하지만 모든 요총에 대해 주어진 페이지를 Next.js가 재생성 할 수 있도록 한다.
