@@ -6,6 +6,10 @@ import path from "path";
 const ProductDetailPage = (props) => {
   const { loadedProduct } = props;
 
+  if (!loadedProduct) {
+    return <p>Loading...</p>;
+  }
+
   return (
     <Fragment>
       <h1>{loadedProduct.title}</h1>
@@ -37,12 +41,8 @@ export const getStaticProps = async (context) => {
 // 동적 페이지에 대한 데이터를 사전 생성하기위함.
 export const getStaticPaths = async () => {
   return {
-    paths: [
-      { params: { pid: "p1" } },
-      { params: { pid: "p2" } },
-      { params: { pid: "p3" } },
-    ],
-    fallback: false,
+    paths: [{ params: { pid: "p1" } }],
+    fallback: true,
   };
 };
 
