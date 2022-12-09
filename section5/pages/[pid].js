@@ -34,4 +34,16 @@ export const getStaticProps = async (context) => {
   };
 };
 
+// 동적 페이지에 대한 데이터를 사전 생성하기위함.
+export const getStaticPaths = async () => {
+  return {
+    paths: [
+      { params: { pid: "p1" } },
+      { params: { pid: "p2" } },
+      { params: { pid: "p3" } },
+    ],
+    fallback: false,
+  };
+};
+
 export default ProductDetailPage;
