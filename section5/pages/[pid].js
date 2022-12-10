@@ -37,6 +37,11 @@ export const getStaticProps = async (context) => {
 
   const product = data.products.find((product) => product.id === productId);
 
+  // fallback을 true로 설정할 경우 데이터가 없을 때 notFound 화면을 띄울 수 있도록 함.
+  if (!product) {
+    return { notFound: true };
+  }
+
   return {
     props: {
       loadedProduct: product,
@@ -53,6 +58,8 @@ export const getStaticPaths = async () => {
 
   return {
     paths: pathsWithParams,
+    // 파일에서 찾을 수 없는 ID도 사전 랜더링을 할 수 있다. (true)
+    // true로 설정할 경우 Server Error가 나옴.
     fallback: true,
   };
 };
