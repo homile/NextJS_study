@@ -60,3 +60,10 @@ npm run dev
     - 컴포넌트에서 fallback을 확인할 필요가 없게한다.
     - 방문자가 응답받는 시간은 길어지지만 수신된 응답은 종료된다.
     - 보여주고 싶지 않은 페이지에 설정하는 방법도 있다.
+
+### getServerSideProps 함수
+
+- 페이지 컴포넌트 파일에만 추가할 수 있는 비동기함수이다.
+- getStaticProps함수 나 getServerSideProps 둘 중 하나만 사용해야 한다. (충돌)
+- getStaticProps, getStaticPaths는 내부에 들어오는 실제 요청에 접근할 수 없는데 이때 사용하는 것이 getServerSideProps이다.
+- 모든 요청에 대한 페이지를 사전 렌더링하는 방식이다. (ex. 쿠키를 추출해야 하는 경우)
