@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import useSWR from "swr";
 
-const LastSalesPage = () => {
-  const [sales, setSales] = useState();
+const LastSalesPage = (props) => {
+  const [sales, setSales] = useState(props.sales);
   // const [isLoading, SetIsLoading] = useState(false);
 
   // 컴포넌트가 로딩되면 URL로 요청이 전송된다.
@@ -22,7 +22,6 @@ const LastSalesPage = () => {
           volume: data[key].volume,
         });
       }
-      console.log(transformedSales);
       setSales(transformedSales);
     }
   }, [data]);
@@ -52,7 +51,7 @@ const LastSalesPage = () => {
     return <p>Failed to load.</p>;
   }
 
-  if (!data || !sales) {
+  if (!data && !sales) {
     return <p>Loading....</p>;
   }
 
@@ -67,6 +66,27 @@ const LastSalesPage = () => {
       ))}
     </ul>
   );
+};
+
+// SSR방식과 CSR방식 결합
+// DB의 값이 바뀌면 자동으로 클라이언트 화면에 랜더링
+export const getStaticProps = async () => {
+  const response = await fetch(
+    "https://nextjs-course-ea330-default-rtdb.firebaseio.com/sales.json"
+  );
+
+  const data = await response.json();
+  const transformedSales = [];
+
+  for (const key in data) {
+    transformedSales.push({
+      id: key,
+      username: data[key].username,
+      volume: data[key].volume,
+    });
+  }
+
+  return { props: { sales: transformedSales } };
 };
 
 export default LastSalesPage;
