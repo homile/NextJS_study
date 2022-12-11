@@ -67,3 +67,10 @@ npm run dev
 - getStaticProps함수 나 getServerSideProps 둘 중 하나만 사용해야 한다. (충돌)
 - getStaticProps, getStaticPaths는 내부에 들어오는 실제 요청에 접근할 수 없는데 이때 사용하는 것이 getServerSideProps이다.
 - 모든 요청에 대한 페이지를 사전 렌더링하는 방식이다. (ex. 쿠키를 추출해야 하는 경우)
+
+### 클라이언트 사이드 데이터 패칭(Client-side Data Fetching)
+
+- 사용하는 경우
+  - 사전 렌더링을 할 필요가 없거나 사전 렌더링을 할 수 없는 데이터가 있을 경우  
+    (ex.주식, 온라인 쇼핑몰의 최근 주문 내역, 마이페이지 등)
+  - SEO가 필요 없는 경우
