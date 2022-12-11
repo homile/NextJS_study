@@ -74,3 +74,13 @@ npm run dev
   - 사전 렌더링을 할 필요가 없거나 사전 렌더링을 할 수 없는 데이터가 있을 경우  
     (ex.주식, 온라인 쇼핑몰의 최근 주문 내역, 마이페이지 등)
   - SEO가 필요 없는 경우
+
+### useSWR(stale-while-revalidate) hook
+
+- next.js에서 만든 React hook (next가 아닌곳에서도 사용가능)
+- 데이터 캐싱, 최신 데이터를 제공하기 위한 데이터 유효성 재검사 등이 내장기능이다.
+- useSWR로 작업 할 때는 , 기본 fetcher를 추가해야한다.
+
+```js
+useSWR(<request-url>, (url) => fetch(url).then(res => res.json()))
+```

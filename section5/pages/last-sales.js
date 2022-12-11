@@ -1,36 +1,59 @@
 import React, { useEffect, useState } from "react";
+import useSWR from "swr";
 
 const LastSalesPage = () => {
   const [sales, setSales] = useState();
-  const [isLoading, SetIsLoading] = useState(false);
+  // const [isLoading, SetIsLoading] = useState(false);
+
+  // 컴포넌트가 로딩되면 URL로 요청이 전송된다.
+  const { data, error } = useSWR(
+    "https://nextjs-course-ea330-default-rtdb.firebaseio.com/sales.json",
+    (url) => fetch(url).then((res) => res.json())
+  );
 
   useEffect(() => {
-    SetIsLoading(true);
+    if (data) {
+      const transformedSales = [];
 
-    fetch("https://nextjs-course-ea330-default-rtdb.firebaseio.com/sales.json")
-      .then((res) => res.json())
-      .then((data) => {
-        const transformedSales = [];
+      for (const key in data) {
+        transformedSales.push({
+          id: key,
+          username: data[key].username,
+          volume: data[key].volume,
+        });
+      }
+      console.log(transformedSales);
+      setSales(transformedSales);
+    }
+  }, [data]);
 
-        for (const key in data) {
-          transformedSales.push({
-            id: key,
-            username: data[key].username,
-            volume: data[key].volume,
-          });
-        }
+  // useEffect(() => {
+  //   SetIsLoading(true);
 
-        setSales(transformedSales);
-        SetIsLoading(false);
-      });
-  }, []);
+  //   fetch("https://nextjs-course-ea330-default-rtdb.firebaseio.com/sales.json")
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       const transformedSales = [];
 
-  if (isLoading) {
-    return <p>Loading....</p>;
+  //       for (const key in data) {
+  //         transformedSales.push({
+  //           id: key,
+  //           username: data[key].username,
+  //           volume: data[key].volume,
+  //         });
+  //       }
+
+  //       setSales(transformedSales);
+  //       SetIsLoading(false);
+  //     });
+  // }, []);
+
+  if (error) {
+    return <p>Failed to load.</p>;
   }
 
-  if (!sales) {
-    return <p>No data yet</p>;
+  if (!data || !sales) {
+    return <p>Loading....</p>;
   }
 
   // nextjs는 사전 랜더링을 하기 때문에 에러가 나옴
