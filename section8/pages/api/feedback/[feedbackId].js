@@ -1,4 +1,4 @@
-import { buildFeedbackPath, extractFeedback } from "./feedback";
+import { buildFeedbackPath, extractFeedback } from ".";
 
 // 현재 작성된 동적 API Route는 get 요청을 처리할 수 없다.
 // if 문을 통해 get, put, post, delete 기능을 할 수 있다.
