@@ -1,13 +1,32 @@
+import { useState } from "react";
 import { buildFeedbackPath, extractFeedback } from "../api/feedback";
 
 // CSR 패칭
 const FeedbackPage = (props) => {
+  const [feedbackData, setFeedbackData] = useState();
+
+  const loadFeedbackHandler = (id) => {
+    fetch(`/api/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setFeedbackData(data.feedback);
+      }); // /api/some-feedback-id
+  };
+
+  // bind 동작과정 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_objects/Function/bind
+  // 함수를 미리 구성할 수 있게 해줌. 실행은 되지않음.
   return (
-    <ul>
-      {props.feedbackItems.map((item) => (
-        <li key={item.id}>{item.text}</li>
-      ))}
-    </ul>
+    <>
+      {feedbackData && <p>{feedbackData.email}</p>}
+      <ul>
+        {props.feedbackItems.map((item) => (
+          <li key={item.id}>
+            {item.text}
+            <button onClick={loadFeedbackHandler.bind(null, item.id)}>Show Details</button>
+          </li>
+        ))}
+      </ul>
+    </>
   );
 };
 
