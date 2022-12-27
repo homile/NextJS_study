@@ -6,9 +6,11 @@
 // API 라우트에 적합한 방식
 // FE에 사용자 입력란을 패칭하고 사용자가 버튼을 클릭하면 API 라우트에 요청을 전송한다.
 // 그다음 API 라우트에서 DB로 연결하면 위의 취약점을 보완할 수 있다.
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 function HomePage() {
+  const [feedbackItems, setFeedbackItems] = useState([]);
+
   const emailInputRef = useRef();
   const feedbackInputRef = useRef();
 
@@ -18,7 +20,7 @@ function HomePage() {
     const enteredEmail = emailInputRef.current.value;
     const enteredFeedback = feedbackInputRef.current.value;
 
-    const reqBody = { email: enteredEmail, enteredFeedback: enteredFeedback };
+    const reqBody = { email: enteredEmail, text: enteredFeedback };
 
     fetch("/api/feedback", {
       method: "POST",
@@ -29,6 +31,15 @@ function HomePage() {
     })
       .then((res) => res.json())
       .then((data) => console.log(data));
+  };
+
+  // data get
+  const loadFeedbackHandler = () => {
+    fetch("/api/feedback")
+      .then((res) => res.json())
+      .then((data) => {
+        setFeedbackItems(data.feedback);
+      });
   };
 
   return (
@@ -45,6 +56,13 @@ function HomePage() {
         </div>
         <button>Send Feedback</button>
       </form>
+      <hr />
+      <button onClick={loadFeedbackHandler}>Load Feedback</button>
+      <ul>
+        {feedbackItems.map((item) => (
+          <li key={item.id}>{item.text}</li>
+        ))}
+      </ul>
     </div>
   );
 }
